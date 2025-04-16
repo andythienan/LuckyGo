@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>LuckyGo - Giao Diện Người Lớn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-size: 20px;
+      font-family: Arial, sans-serif;
+    }
+    .navbar {
+      background-color: #2e7d32;
+    }
+    .navbar-brand {
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      margin-top: 30px;
+    }
+    .section {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #2e7d32;
+      font-weight: bold;
+    }
+    .form-control {
+      font-size: 18px;
+      padding: 12px;
+    }
+    .btn {
+      font-size: 18px;
+      padding: 10px;
+    }
+    .mic-btn {
+      background-color: #e0e0e0;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+      margin-left: 5px;
+    }
+    .input-group {
+      align-items: center;
+    }
+    footer {
+      background-color: #2e7d32;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar p-3">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">🚀LuckyGo</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Tạo đơn hàng</h2>
+    <div class="row g-3">
+
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Tên người nhận" id="tenNguoiNhan">
+          <button class="mic-btn" onclick="startSpeech('tenNguoiNhan')">🎤</button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="SĐT người nhận" id="sdtNguoiNhan">
+          <button class="mic-btn" onclick="startSpeech('sdtNguoiNhan')">🎤</button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Địa chỉ" id="diaChi">
+          <button class="mic-btn" onclick="startSpeech('diaChi')">🎤</button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Loại hàng" id="loaiHang">
+          <button class="mic-btn" onclick="startSpeech('loaiHang')">🎤</button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="number" class="form-control" placeholder="Trọng lượng (kg)" id="trongLuong">
+          <button class="mic-btn" onclick="startSpeech('trongLuong')">🎤</button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="number" class="form-control" placeholder="Giá trị (VNĐ)" id="giaTri">
+          <button class="mic-btn" onclick="startSpeech('giaTri')">🎤</button>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <button class="btn btn-success w-100" onclick="taoDon()">Tạo đơn</button>
+        <div id="taoDonResult" class="mt-3 fw-bold text-success"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Tra cứu đơn hàng</h2>
+    <input type="text" id="orderCode" class="form-control mb-3" placeholder="Nhập mã đơn hàng">
+    <button class="btn btn-primary w-100" onclick="lookupOrder()">Xem trạng thái</button>
+    <div id="orderResult" class="mt-3 fw-bold"></div>
+  </div>
+
+  <div class="section">
+    <h2>Thanh toán điện tử</h2>
+    <select id="walletSelect" class="form-select mb-3">
+      <option value="">-- Chọn ví điện tử --</option>
+      <option value="momo">Momo</option>
+      <option value="vnpay">VNPAY</option>
+      <option value="zalopay">ZaloPay</option>
+    </select>
+    <button class="btn btn-warning w-100" onclick="handleWalletQR()">Tạo mã QR</button>
+    <div id="qrcode" class="my-3"></div>
+  </div>
+
+  <div class="section">
+    <h2>Rút tiền COD</h2>
+    <form id="codForm">
+      <div class="row g-3">
+        <div class="col-md-6"><input type="text" class="form-control" placeholder="Họ tên người nhận" required></div>
+        <div class="col-md-6"><input type="text" class="form-control" placeholder="Số tài khoản" required></div>
+        <div class="col-md-6"><input type="text" class="form-control" placeholder="Ngân hàng" required></div>
+        <div class="col-md-6"><input type="number" class="form-control" placeholder="Số tiền cần rút" required></div>
+        <div class="col-12"><button class="btn btn-secondary w-100" type="submit">Gửi yêu cầu</button></div>
+      </div>
+    </form>
+    <div id="withdrawResult" class="mt-3 fw-bold text-success"></div>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2025 LuckyGo – Giao diện thân thiện cho người lớn tuổi
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script>
+  function lookupOrder() {
+    const code = document.getElementById("orderCode").value;
+    const result = document.getElementById("orderResult");
+    result.innerHTML = code
+      ? `<div class="alert alert-success">Đơn hàng <strong>${code}</strong> đang được xử lý</div>`
+      : `<div class="alert alert-danger">Vui lòng nhập mã đơn hàng.</div>`;
+  }
+
+  function handleWalletQR() {
+    const wallet = document.getElementById("walletSelect").value;
+    const qrBox = document.getElementById("qrcode");
+    qrBox.innerHTML = '';
+
+    let qrLink = '';
+    switch(wallet) {
+      case 'momo': qrLink = 'https://luckygo.vn/pay/momo'; break;
+      case 'vnpay': qrLink = 'https://luckygo.vn/pay/vnpay'; break;
+      case 'zalopay': qrLink = 'https://luckygo.vn/pay/zalopay'; break;
+      default:
+        alert('Vui lòng chọn ví điện tử!');
+        return;
+    }
+
+    new QRCode(qrBox, { text: qrLink, width: 180, height: 180 });
+  }
+
+  document.getElementById("codForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    document.getElementById("withdrawResult").innerHTML =
+      "<div class='alert alert-success'>✅ Đã gửi yêu cầu rút tiền thành công!</div>";
+    this.reset();
+  });
+
+  // 🎤 Micro input speech-to-text
+  function startSpeech(inputId) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Trình duyệt của bạn không hỗ trợ ghi âm giọng nói.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "vi-VN";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      document.getElementById(inputId).value = transcript;
+    };
+
+    recognition.onerror = function(event) {
+      alert("Đã xảy ra lỗi: " + event.error);
+    };
+  }
+
+  // Xử lý tạo đơn
+  function taoDon() {
+    const ten = document.getElementById("tenNguoiNhan").value;
+    const sdt = document.getElementById("sdtNguoiNhan").value;
+    const diaChi = document.getElementById("diaChi").value;
+    const loaiHang = document.getElementById("loaiHang").value;
+    const trongLuong = document.getElementById("trongLuong").value;
+    const giaTri = document.getElementById("giaTri").value;
+
+    if (!ten || !sdt || !diaChi || !loaiHang || !trongLuong || !giaTri) {
+      document.getElementById("taoDonResult").innerHTML =
+        "<div class='alert alert-danger'>❌ Vui lòng nhập đầy đủ thông tin.</div>";
+      return;
+    }
+
+    // Có thể xử lý gửi dữ liệu ở đây
+
+    document.getElementById("taoDonResult").innerHTML =
+      "<div class='alert alert-success'>✅ Bạn đã tạo đơn thành công!</div>";
+
+    // Nếu muốn reset form sau khi tạo đơn
+    document.getElementById("tenNguoiNhan").value = "";
+    document.getElementById("sdtNguoiNhan").value = "";
+    document.getElementById("diaChi").value = "";
+    document.getElementById("loaiHang").value = "";
+    document.getElementById("trongLuong").value = "";
+    document.getElementById("giaTri").value = "";
+  }
+</script>
+
+</body>
+</html>

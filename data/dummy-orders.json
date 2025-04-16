@@ -1,0 +1,8 @@
+[
+    {"code": "DH001", "status": "Đã tạo", "date": "2025-04-01"},
+    {"code": "DH002", "status": "Đang giao", "date": "2025-04-02"},
+    {"code": "DH003", "status": "Đã giao", "date": "2025-04-03"},
+    {"code": "DH004", "status": "Đang giao", "date": "2025-04-04"},
+    {"code": "DH005", "status": "Đã hủy", "date": "2025-04-05"}
+  ]
+  
