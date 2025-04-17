@@ -67,14 +67,15 @@
 <div class="container py-5">
   <div class="section">
     <h2>📦 Tạo đơn hàng</h2>
-    <div class="row g-3">
-      <div class="col-md-6"><input type="text" class="form-control" placeholder="Tên người nhận"></div>
-      <div class="col-md-6"><input type="text" class="form-control" placeholder="SĐT người nhận"></div>
-      <div class="col-md-6"><input type="text" class="form-control" placeholder="Địa chỉ"></div>
-      <div class="col-md-6"><input type="text" class="form-control" placeholder="Loại hàng"></div>
-      <div class="col-md-6"><input type="number" class="form-control" placeholder="Trọng lượng (kg)"></div>
-      <div class="col-md-6"><input type="number" class="form-control" placeholder="Giá trị đơn hàng (VNĐ)"></div>
-      <div class="col-12"><button class="btn btn-danger w-100">Tạo đơn ngay</button></div>
+    <div class="row g-3" id="orderForm">
+      <div class="col-md-6"><input type="text" class="form-control" placeholder="Tên người nhận" id="receiverName"></div>
+      <div class="col-md-6"><input type="text" class="form-control" placeholder="SĐT người nhận" id="receiverPhone"></div>
+      <div class="col-md-6"><input type="text" class="form-control" placeholder="Địa chỉ" id="receiverAddress"></div>
+      <div class="col-md-6"><input type="text" class="form-control" placeholder="Loại hàng" id="itemType"></div>
+      <div class="col-md-6"><input type="number" class="form-control" placeholder="Trọng lượng (kg)" id="weight"></div>
+      <div class="col-md-6"><input type="number" class="form-control" placeholder="Giá trị đơn hàng (VNĐ)" id="orderValue"></div>
+      <div class="col-12"><button class="btn btn-danger w-100" onclick="createOrder()">Tạo đơn ngay</button></div>
+      <div class="col-12" id="orderSuccessMsg"></div>
     </div>
   </div>
 
@@ -144,6 +145,26 @@
     }
 
     new QRCode(qrBox, { text: qrLink, width: 180, height: 180 });
+  }
+
+  function createOrder() {
+    const name = document.getElementById("receiverName").value;
+    const phone = document.getElementById("receiverPhone").value;
+    const address = document.getElementById("receiverAddress").value;
+    const item = document.getElementById("itemType").value;
+    const weight = document.getElementById("weight").value;
+    const value = document.getElementById("orderValue").value;
+    const messageBox = document.getElementById("orderSuccessMsg");
+
+    if (name && phone && address && item && weight && value) {
+      messageBox.innerHTML = `<div class='alert alert-success mt-3'>✅ Đơn hàng đã được tạo thành công!</div>`;
+      setTimeout(() => {
+        document.getElementById("orderForm").reset?.(); // fallback in case .reset() not supported
+        document.querySelectorAll('#orderForm input').forEach(input => input.value = '');
+      }, 2000);
+    } else {
+      messageBox.innerHTML = `<div class='alert alert-warning mt-3'>⚠️ Vui lòng điền đầy đủ thông tin!</div>`;
+    }
   }
 
   document.getElementById("codForm").addEventListener("submit", function(e) {
