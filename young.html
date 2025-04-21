@@ -44,81 +44,150 @@
       color: white;
       font-weight: bold;
     }
-    #qrcode {
-      margin-top: 15px;
+    .mic-btn {
+      background-color: #e0e0e0;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+      margin-left: 5px;
+    }
+    .input-group {
+      align-items: center;
+    }
+    .chat-box {
+      border: 1px solid #ccc;
+      height: 300px;
+      overflow-y: auto;
+      padding: 10px;
+      background: #f9f9f9;
+      margin-bottom: 15px;
+    }
+    .chat-message {
+      margin: 8px 0;
+    }
+    .chat-message.customer {
+      text-align: right;
+      color: #007bff;
+    }
+    .chat-message.agent {
+      text-align: left;
+      color: #28a745;
     }
     footer {
-      text-align: center;
-      background: #ff6f61;
+      background-color: #ff6f61;
       color: white;
-      padding: 20px;
-      font-size: 0.9rem;
+      padding: 15px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-<nav class="navbar navbar-dark">
+<nav class="navbar p-3">
   <div class="container">
     <a class="navbar-brand" href="index.html">🚀LuckyGo</a>
   </div>
 </nav>
 
-<div class="container py-5">
+<div class="container">
+
+  <!-- Tạo đơn hàng -->
   <div class="section">
-    <h2>📦 Tạo đơn hàng</h2>
-    <div class="row g-3" id="orderForm">
-      <div class="col-md-6"><input type="text" class="form-control" placeholder="Tên người nhận" id="receiverName"></div>
-      <div class="col-md-6"><input type="text" class="form-control" placeholder="SĐT người nhận" id="receiverPhone"></div>
-      <div class="col-md-6"><input type="text" class="form-control" placeholder="Địa chỉ" id="receiverAddress"></div>
-      <div class="col-md-6"><input type="text" class="form-control" placeholder="Loại hàng" id="itemType"></div>
-      <div class="col-md-6"><input type="number" class="form-control" placeholder="Trọng lượng (kg)" id="weight"></div>
-      <div class="col-md-6"><input type="number" class="form-control" placeholder="Giá trị đơn hàng (VNĐ)" id="orderValue"></div>
-      <div class="col-12"><button class="btn btn-danger w-100" onclick="createOrder()">Tạo đơn ngay</button></div>
-      <div class="col-12" id="orderSuccessMsg"></div>
+    <h2>Tạo đơn hàng</h2>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Tên người nhận" id="tenNguoiNhan">
+      </div>
+
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="SĐT người nhận" id="sdtNguoiNhan">
+      </div>
+
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Địa chỉ" id="diaChi">
+      </div>
+
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Loại hàng" id="loaiHang">
+      </div>
+
+      <div class="col-md-6">
+        <input type="number" class="form-control" placeholder="Trọng lượng (kg)" id="trongLuong">
+      </div>
+
+      <div class="col-md-6">
+        <input type="number" class="form-control" placeholder="Giá trị (VNĐ)" id="giaTri">
+      </div>
+
+      <div class="col-12">
+        <button class="btn btn-success w-100" onclick="taoDon()">Tạo đơn</button>
+        <div id="taoDonResult" class="mt-3 fw-bold text-success"></div>
+      </div>
     </div>
   </div>
 
+  <!-- Tra cứu -->
   <div class="section">
-    <h2>🔍 Tra cứu đơn hàng</h2>
+    <h2>Tra cứu đơn hàng</h2>
     <input type="text" id="orderCode" class="form-control mb-3" placeholder="Nhập mã đơn hàng">
-    <button class="btn btn-dark w-100" onclick="lookupOrder()">Xem trạng thái</button>
+    <button class="btn btn-primary w-100" onclick="lookupOrder()">Xem trạng thái</button>
     <div id="orderResult" class="mt-3 fw-bold"></div>
   </div>
 
+  <!-- Thanh toán -->
   <div class="section">
-    <h2>💳 Thanh toán điện tử</h2>
+    <h2>Thanh toán điện tử</h2>
     <select id="walletSelect" class="form-select mb-3">
       <option value="">-- Chọn ví điện tử --</option>
       <option value="momo">Momo</option>
       <option value="vnpay">VNPAY</option>
       <option value="zalopay">ZaloPay</option>
     </select>
-    <button class="btn btn-qr w-100" onclick="handleWalletQR()">Tạo mã QR</button>
-    <div id="qrcode"></div>
+    <button class="btn btn-warning w-100" onclick="handleWalletQR()">Tạo mã QR</button>
+    <div id="qrcode" class="my-3"></div>
   </div>
 
+  <!-- Rút tiền -->
   <div class="section">
-    <h2>💰 Rút tiền COD</h2>
+    <h2>Rút tiền COD</h2>
     <form id="codForm">
       <div class="row g-3">
         <div class="col-md-6"><input type="text" class="form-control" placeholder="Họ tên người nhận" required></div>
         <div class="col-md-6"><input type="text" class="form-control" placeholder="Số tài khoản" required></div>
         <div class="col-md-6"><input type="text" class="form-control" placeholder="Ngân hàng" required></div>
         <div class="col-md-6"><input type="number" class="form-control" placeholder="Số tiền cần rút" required></div>
-        <div class="col-12"><button class="btn btn-success w-100" type="submit">Gửi yêu cầu rút</button></div>
+        <div class="col-12"><button class="btn btn-success w-100" type="submit">Gửi yêu cầu</button></div>
       </div>
     </form>
     <div id="withdrawResult" class="mt-3 fw-bold text-success"></div>
   </div>
+
+  <!-- Chat giả lập -->
+  <div class="section">
+    <h2>Hỗ trợ khách hàng</h2>
+    <div class="chat-box" id="chatBox">
+      <div class="chat-message agent">💬 Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</div>
+    </div>
+    <div class="input-group">
+      <input type="text" class="form-control" id="userInput" placeholder="Nhập nội dung cần hỗ trợ...">
+      <button class="btn btn-secondary" onclick="sendMessage()">Gửi</button>
+    </div>
+  </div>
+
 </div>
 
 <footer>
-  &copy; 2025 LuckyGo – Giao hàng thế hệ mới dành cho người trẻ.
+  &copy; 2025 LuckyGo – Giao diện thân thiện cho người trẻ
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
+  function taoDon() {
+    document.getElementById("taoDonResult").innerText = "✅ Đơn hàng đã được tạo thành công!";
+  }
+
   function lookupOrder() {
     const code = document.getElementById("orderCode").value;
     const result = document.getElementById("orderResult");
@@ -131,48 +200,37 @@
     const wallet = document.getElementById("walletSelect").value;
     const qrBox = document.getElementById("qrcode");
     qrBox.innerHTML = '';
-
-    let qrLink = '';
-    switch(wallet) {
-      case 'momo':
-        qrLink = 'https://luckygo.vn/pay/momo'; break;
-      case 'vnpay':
-        qrLink = 'https://luckygo.vn/pay/vnpay'; break;
-      case 'zalopay':
-        qrLink = 'https://luckygo.vn/pay/zalopay'; break;
-      default:
-        alert('Vui lòng chọn ví điện tử!'); return;
-    }
-
-    new QRCode(qrBox, { text: qrLink, width: 180, height: 180 });
-  }
-
-  function createOrder() {
-    const name = document.getElementById("receiverName").value;
-    const phone = document.getElementById("receiverPhone").value;
-    const address = document.getElementById("receiverAddress").value;
-    const item = document.getElementById("itemType").value;
-    const weight = document.getElementById("weight").value;
-    const value = document.getElementById("orderValue").value;
-    const messageBox = document.getElementById("orderSuccessMsg");
-
-    if (name && phone && address && item && weight && value) {
-      messageBox.innerHTML = `<div class='alert alert-success mt-3'>✅ Đơn hàng đã được tạo thành công!</div>`;
-      setTimeout(() => {
-        document.getElementById("orderForm").reset?.(); // fallback in case .reset() not supported
-        document.querySelectorAll('#orderForm input').forEach(input => input.value = '');
-      }, 2000);
+    if (wallet) {
+      new QRCode(qrBox, {
+        text: `https://thanhtoan.${wallet}.com/luckygo/123456`,
+        width: 200,
+        height: 200
+      });
     } else {
-      messageBox.innerHTML = `<div class='alert alert-warning mt-3'>⚠️ Vui lòng điền đầy đủ thông tin!</div>`;
+      qrBox.innerHTML = `<div class="text-danger">Vui lòng chọn ví điện tử trước!</div>`;
     }
   }
 
-  document.getElementById("codForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    document.getElementById("withdrawResult").innerHTML =
-      "<div class='alert alert-success'>✅ Đã gửi yêu cầu rút tiền thành công!</div>";
-    this.reset();
+  document.getElementById("codForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    document.getElementById("withdrawResult").innerText = "✅ Yêu cầu rút tiền đã được gửi!";
   });
+
+  function sendMessage() {
+    const input = document.getElementById("userInput");
+    const message = input.value.trim();
+    const chatBox = document.getElementById("chatBox");
+    if (message) {
+      chatBox.innerHTML += `<div class="chat-message customer">${message}</div>`;
+      // Fake reply
+      setTimeout(() => {
+        chatBox.innerHTML += `<div class="chat-message agent">🤖 Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất.</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 1000);
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  }
 </script>
 </body>
 </html>

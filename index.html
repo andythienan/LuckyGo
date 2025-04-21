@@ -19,7 +19,7 @@
     }
     .navbar-brand {
       font-weight: bold;
-      font-size: 1.6rem;
+      font-size: 1.3rem;
       letter-spacing: 1px;
     }
     .main {
@@ -36,14 +36,29 @@
     }
     .card-select:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(255,255,255,0.15);
+      box-shadow: 0 0 25px rgba(22, 24, 36, 0.15);
     }
     .btn-custom {
       background-color: #00b894;
       border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      width: 100%;
+      text-align: center;
     }
     .btn-custom:hover {
-      background-color: #019875;
+      background-color: #34b1a4;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      width: 100%;
+      text-align: center;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
     }
     footer {
       background-color: #111;
@@ -62,13 +77,13 @@
   <!-- Navbar -->
   <nav class="navbar navbar-dark">
     <div class="container">
-      <a class="navbar-brand" href="#"><i class="bi bi-lightning-fill text-warning"></i> LuckyGo</a>
+      <a class="navbar-brand" href="#" style="font-size: 40px"><i class="bi bi-lightning-fill text-warning"></i> LuckyGo</a>
     </div>
   </nav>
 
   <!-- Main -->
   <div class="container main text-center">
-    <h1 class="mb-5">Chào mừng đến với <span>LuckyGo</span></h1>
+    <h2 class="mb-5">Chào mừng đến với <span>LuckyGo</span></h2>
     <p class="mb-5">Chọn giao diện phù hợp với bạn để tiếp tục sử dụng dịch vụ giao hàng thông minh.</p>
     <div class="row justify-content-center g-4">
       <!-- Người trẻ -->
@@ -76,7 +91,7 @@
         <div class="card card-select p-4">
           <h3 class="mb-3"><i class="bi bi-stars text-info"></i> Tôi dưới 40 tuổi</h3>
           <p>Giao diện năng động, nhiều màu sắc, hiệu ứng đẹp mắt</p>
-          <a href="young.html" class="btn btn-custom w-100 mt-2">Chọn giao diện này</a>
+          <a href="young.html" class="btn btn-custom mt-2">Chọn giao diện này</a>
         </div>
       </div>
 
@@ -85,7 +100,7 @@
         <div class="card card-select p-4">
           <h3 class="mb-3"><i class="bi bi-eyeglasses text-warning"></i> Tôi trên 40 tuổi</h3>
           <p>Giao diện đơn giản, dễ đọc, thao tác dễ dàng</p>
-          <a href="old.html" class="btn btn-secondary w-100 mt-2">Chọn giao diện này</a>
+          <a href="old.html" class="btn btn-primary mt-2">Chọn giao diện này</a>
         </div>
       </div>
     </div>
